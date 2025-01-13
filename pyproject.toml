@@ -3,5 +3,13 @@ name = "picotron-on-modal"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.8"
-dependencies = []
+requires-python = ">=3.10"
+dependencies = [
+    "torch==2.1.0",
+    "numpy==1.26.4",
+    "datasets==2.19.1",
+    "transformers==4.41.1",
+    "flash-attn==2.5.0",
+    "lovely_tensors",
+    "wandb",
+]
