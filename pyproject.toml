@@ -13,3 +13,6 @@ dependencies = [
     "lovely_tensors",
     "wandb",
 ]
+
+[tool.uv]
+no-build-isolation-package = ["flash-attn"]
