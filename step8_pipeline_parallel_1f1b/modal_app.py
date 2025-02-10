@@ -50,6 +50,10 @@ GPU_TYPE = modal.gpu.H100(count=4)
             remote_path=REMOTE_CODE_DIR,
         )
     ],
+    secrets=[
+        # Required for connecting to Weights & Biases from within the Modal container.
+        modal.Secret.from_name("wandb-secret"),
+    ],
     timeout=3600,
 )
 @modal.experimental.clustered(n_nodes)
@@ -70,8 +74,9 @@ def demo():
     args = [
         f"--nnodes={n_nodes}",
         f"--nproc-per-node={n_proc_per_node}",
-        f"--node_rank={cluster_info.rank}",
-        f"--master_addr={main_ip_addr}",
+        f"--node-rank={cluster_info.rank}",
+        f"--master-addr={main_ip_addr}",
+        REMOTE_SCRIPT_PATH,
         "--pp_size",
         "4",
         "--pp_engine",
@@ -89,11 +94,6 @@ def demo():
         "--run_name",
         "pp_1f1b",
         "--use_wandb",
-        REMOTE_SCRIPT_PATH,
     ]
     print(f"Running torchrun with args: {' '.join(args)}")
-
-    import time
-
-    time.sleep(1000)  # TEMP
     run(parse_args(args))

@@ -7,6 +7,9 @@ class ProcessGroupManager:
     def __init__(self, dp_size, pp_size, tp_size):
         self.global_rank = dist.get_rank()
         self.world_size = dist.get_world_size()
+        self.dp_size = dp_size
+        self.pp_size = pp_size
+        self.tp_size = tp_size
         self.local_rank = int(
             os.environ.get("LOCAL_RANK", self.global_rank % self.world_size)
         )
