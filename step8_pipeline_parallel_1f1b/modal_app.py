@@ -71,13 +71,20 @@ def demo():
     if container_rank == 0:
         print(f"main container's address: {main_ip_addr}")
 
+
+    max_tokens = 16 * 1024 * 1024  # ~16M tokens
+
     args = [
         f"--nnodes={n_nodes}",
         f"--nproc-per-node={n_proc_per_node}",
         f"--node-rank={cluster_info.rank}",
         f"--master-addr={main_ip_addr}",
         REMOTE_SCRIPT_PATH,
+        "--tp_size",
+        "2",
         "--pp_size",
+        "2",
+        "--dp_size",
         "4",
         "--pp_engine",
         "1f1b",
@@ -87,8 +94,9 @@ def demo():
         "8",
         "--seq_len",
         "128",
+        # Increasing max_tokens makes the model train more.
         "--max_tokens",
-        "40960",
+        str(max_tokens),
         "--num_proc",
         "16",
         "--run_name",

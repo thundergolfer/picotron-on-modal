@@ -136,7 +136,7 @@ if __name__ == "__main__":
         rank=global_rank,
         world_size=world_size,
         backend=backend,
-        init_method=f"env://",
+        init_method="env://",
         timeout=datetime.timedelta(minutes=2),
     )
     setup_process_group_manager(
